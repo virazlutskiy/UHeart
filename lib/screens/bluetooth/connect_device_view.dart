@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uheart/features/bluetooth/bluetooth.dart';
-
+/// [ConnectedDeviceView] - экран позволяющий взаимодействовать с подключенным устрйоством
 class ConnectedDeviceView extends ConsumerStatefulWidget {
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>

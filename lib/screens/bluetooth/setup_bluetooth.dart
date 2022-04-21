@@ -5,6 +5,8 @@ import 'package:uheart/screens/bluetooth/listview_of_devices.dart';
 
 import '../../features/bluetooth/bluetooth.dart';
 
+/// [BluetoothScreen] - первый экран программы. Показывает [ConnectedDeviceView] или [ListViewOfDevices]
+/// в зависимости от состояния подключения устройства
 class BluetoothScreen extends ConsumerWidget {
   const BluetoothScreen({Key? key}) : super(key: key);
 
@@ -15,6 +17,9 @@ class BluetoothScreen extends ConsumerWidget {
       return ConnectedDeviceView();
     }
     return ListViewOfDevices(
-        bluetooth.flutterBlue, bluetooth.devicesList, bluetooth);
+      bluetooth.flutterBlue,
+      bluetooth.devicesList,
+      bluetooth,
+    );
   }
 }

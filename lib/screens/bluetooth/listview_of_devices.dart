@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 
 import '../../features/bluetooth/bluetooth.dart';
-
+/// [ListViewOfDevices] - экран отображающий список всех доступных устройств
 class ListViewOfDevices extends StatelessWidget {
   final List<BluetoothDevice> _devicesList;
   final FlutterBlue _flutterBlue;
-  final Bluetooth _blue;
+  final BluetoothManager _blue;
 
   const ListViewOfDevices(
     this._flutterBlue,

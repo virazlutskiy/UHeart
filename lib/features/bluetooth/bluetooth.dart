@@ -4,11 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final bluetoothChangeNotifier = ChangeNotifierProvider.autoDispose<Bluetooth>(
-  (ref) => Bluetooth(),
+/// Провайдер [bluetoothChangeNotifier] предназначен для предоставления доступа к
+/// глоабльному менеджеру [BluetoothManager]
+final bluetoothChangeNotifier =
+    ChangeNotifierProvider.autoDispose<BluetoothManager>(
+  (ref) => BluetoothManager(),
 );
 
-class Bluetooth extends ChangeNotifier {
+/// [BluetoothManager] - менеджер работы с bluetooth устройствами.
+/// Реализует поиск и подключение к ближайшим устройствам, а также
+/// отправку и получения данных с них
+class BluetoothManager extends ChangeNotifier {
   final FlutterBlue _bluetoothModule = FlutterBlue.instance;
   final List<BluetoothDevice> _devicesList = <BluetoothDevice>[];
   final Map<Guid, List<int>> readValues = <Guid, List<int>>{};
@@ -16,7 +22,7 @@ class Bluetooth extends ChangeNotifier {
   bool _deviceIsConnected = false;
   late BluetoothDevice _connectedDevice;
 
-  Bluetooth() {
+  BluetoothManager() {
     _bluetoothModule.connectedDevices
         .asStream()
         .listen((List<BluetoothDevice> devices) {
@@ -32,20 +38,23 @@ class Bluetooth extends ChangeNotifier {
     _bluetoothModule.startScan();
   }
 
+  /// Гетор [devicesList] возвращает список доступных дивайсов в округе
   List<BluetoothDevice> get devicesList => _devicesList;
-
+  /// Гетор [flutterBlue] возвращает экзапляр класс [FlutterBlue] для контроля bluetooth соединения
   FlutterBlue get flutterBlue => _bluetoothModule;
-
+  /// Гетор [connectedDevice] возвращает список доступных дивайсов в округе
   BluetoothDevice get connectedDevice => _connectedDevice;
-
+  /// Гетор [deviceIsConnected] возвращает список доступных дивайсов в округе
   bool get deviceIsConnected => _deviceIsConnected;
-
+  /// Сеттор [connectedDevice] позваляет установить новое текущее устройство, к которому подключен менеджер,
+  /// а также оповестить всех подписчиков об этом
   set connectedDevice(BluetoothDevice device) {
     _connectedDevice = device;
     _deviceIsConnected = !deviceIsConnected;
     notifyListeners();
   }
-
+  /// метод [disconnect] позволяет отключить подключенное устройство, опопвестить об этом слушателей
+  /// и вернуть состояние менеджера в начлаьное положение.
   void disconnect() {
     if (deviceIsConnected) {
       _connectedDevice.disconnect();
